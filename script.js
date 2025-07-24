@@ -179,8 +179,6 @@ const prepareResult = (
     return "";
   }
 
-  console.log(rank)
-
   let totalPassMark = 0,
     totalMark = 0,
     totalFullMark = 0,
@@ -203,7 +201,7 @@ const prepareResult = (
       }
 
       const passMark = fullMarks * 0.4;
-      const obtainedMark = parseInt(studentMark);
+      const obtainedMark = parseFloat(studentMark);
       const [grade, gradePoint] = calculateGradeAndGradePoint(
         fullMarks,
         obtainedMark,

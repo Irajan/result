@@ -1,4 +1,23 @@
 /* General styles */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-color: #f8f9fa;
+  --primary-font: 'Segoe UI', 'Roboto', Oxygen, sans-serif;
+  --line-height: 1.8;
+  --padding-small: 1rem;
+  --padding-medium: 1.5rem;
+  --padding-large: 2rem;
+  --border-radius: 0.375rem;
+  --primary-color-hover: #0069d9;
+  --dialog-box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --dialog-width: 70%;
+  --large-border-radius: 10px;
+  --table-cell-padding: 10px;
+  --table-border-color: var(--secondary-color);
+  --container-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,17 +25,20 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+  font-family: var(--primary-font);
+  line-height: var(--line-height);
+  background-color: var(--background-color);
+  color: #212529;
+  padding: var(--padding-medium);
 }
 
 /* Container styles */
 .container {
   max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  margin: var(--padding-medium) auto;
+  padding: var(--padding-medium);
+  box-shadow: var(--container-box-shadow);
+  border-radius: var(--large-border-radius);
 }
 
 /* Header styles */
@@ -57,7 +79,7 @@ main {
 }
 
 .file-input:hover {
-  border-color: #45a049;
+  border-color: var(--primary-color-hover);
 }
 
 .marks-container {
@@ -125,8 +147,8 @@ main {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 50%; /* Full width of the container */
+  box-shadow: var(--dialog-box-shadow);
+  width: var(--dialog-width); /* Full width of the container */
 }
 
 .table-display {
@@ -139,10 +161,10 @@ main {
 }
 
 .dialog-item {
-  display: table-cell; /* Each item behaves like a table cell */
-  padding: 10px; /* Adds spacing inside cells */
-  border: 1px solid #ddd; /* Borders around cells */
-  text-align: left; /* Align text to the left */
+  display: table-cell; 
+  padding: var(--table-cell-padding); 
+  border: 1px solid var(--table-border-color);
+  text-align: left; 
 }
 
 .dialog-item select {
@@ -163,10 +185,10 @@ main {
 }
 
 .student-info-card {
-  border: 2px solid black;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 20px;
+  border: 2px solid var(--secondary-color);
+  border-radius: var(--large-border-radius);
+  padding: var(--padding-small);
+  margin: var(--padding-medium);
   display: flex;
   justify-content: space-between;
 }
@@ -194,7 +216,7 @@ main {
 .table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid black;
+  border: 1px solid var(--table-border-color);
 }
 
 .table-row-group {
@@ -208,8 +230,8 @@ main {
 }
 
 .table-cell {
-  border: 1px solid black;
-  padding: 5px;
+  border: 1px solid var(--table-border-color);
+  padding: var(--table-cell-padding);
 }
 
 .font-bold {
@@ -217,13 +239,13 @@ main {
 }
 
 .remarks-container {
-  border: 2px solid #000;
-  border-radius: 10px;
-  padding: 15px;
+  border: 2px solid var(--secondary-color);
+  border-radius: var(--large-border-radius);
+  padding: var(--padding-medium);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 70%;
+  width: 100%;
 }
 
 .remarks-list {
