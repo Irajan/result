@@ -203,7 +203,7 @@ const prepareResult = (
       }
 
       const passMark = fullMarks * 0.4;
-      const obtainedMark = parseInt(studentMark);
+      const obtainedMark = parseFloat(studentMark);
       const [grade, gradePoint] = calculateGradeAndGradePoint(
         fullMarks,
         obtainedMark,
