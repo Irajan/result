@@ -7,6 +7,13 @@ const getSubjectKey = (subject) => {
 
 const getSubjectLabel = (subject) => {
   // Create label for subject assuming subject will be string and replace '-' with ' ' and capitalize each word
+
+
+  if (subject.includes(".")){
+    return subject.toUpperCase()
+  }
+
+
   const subjectLabel = subject
     .toLowerCase()
     .replaceAll("-", " ")

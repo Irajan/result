@@ -57,6 +57,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const schoolDaysIndex = subjectRows.findIndex(value => value?.toLowerCase() == 'ta')
         const rollNumberIndex = subjectRows.findIndex(value => value?.toLowerCase() == 'roll')
 
+        debugger
+
+        console.log({
+          rankIndex,
+          schoolDaysIndex,
+          rollNumberIndex,
+        })
+
         if ([rankIndex, schoolDaysIndex, rollNumberIndex].includes(-1)) {
           console.error("Either rank or school days or roll number is missing in sheet")
 
@@ -179,7 +187,6 @@ const prepareResult = (
     return "";
   }
 
-  console.log(rank)
 
   let totalPassMark = 0,
     totalMark = 0,
