@@ -140,28 +140,45 @@ document.addEventListener("DOMContentLoaded", function () {
                 orientation: "l",
                 unit: "mm",
                 format: "a4",
-          });
+            });
 
-          const resultPages = resultHolder.children;
-          const pageWidth = pdf.internal.pageSize.getWidth();
-          const pageHeight = pdf.internal.pageSize.getHeight();
-          const promises = [];
+            const resultPages = resultHolder.children;
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const promises = [];
 
-          for (const [index, page] of Array.from(resultPages).entries()) {
-            promises.push(
-              html2canvas(page).then((canvas) => {
-                const imageData = canvas.toDataURL("image/png");
-                pdf.addImage(imageData, "PNG", 0, 0, pageWidth, pageHeight);
-                // Add new page only if it's not the last one
-                if (index < resultPages.length - 1) {
-                  pdf.addPage();
-                }
-              }),
-            );
-          }
+            for (const [index, page] of Array.from(resultPages).entries()) {
+                promises.push(
+                    html2canvas(page, {
+                        scale: 3, // Higher scale for better resolution
+                        backgroundColor: '#fff', // Ensure white background
+                        useCORS: true
+                    }).then((canvas) => {
+                        // Calculate scale to fit content to PDF page
+                        const imgWidth = canvas.width;
+                        const imgHeight = canvas.height;
+                        const ratio = Math.min(pageWidth * 3 / imgWidth, pageHeight * 3 / imgHeight);
+                        const renderWidth = imgWidth * ratio / 3;
+                        const renderHeight = imgHeight * ratio / 3;
 
-          await Promise.all(promises);
-          pdf.save(`${gradeInput.value}_result.pdf`);
+                        const imageData = canvas.toDataURL("image/png");
+                        // Draw white background for clarity
+                        pdf.setFillColor(255, 255, 255);
+                        pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+                        // Center the image
+                        const x = (pageWidth - renderWidth) / 2;
+                        const y = (pageHeight - renderHeight) / 2;
+                        pdf.addImage(imageData, "PNG", x, y, renderWidth, renderHeight);
+                        // Add new page only if it's not the last one
+                        if (index < resultPages.length - 1) {
+                            pdf.addPage();
+                        }
+                    })
+                );
+            }
+
+            await Promise.all(promises);
+            pdf.save(`${gradeInput.value}_result.pdf`);
         });
         });
 
