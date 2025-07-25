@@ -240,7 +240,8 @@ const prepareResult = (
   let totalPassMark = 0,
     totalMark = 0,
     totalFullMark = 0,
-    totalGradePoint = 0;
+    totalGradePoint = 0,
+    nanCount = 0;
 
   const tableContents = subjectFullMarksAndLabel.map(
     ({ fullMarks, label }, index) => {
@@ -252,6 +253,7 @@ const prepareResult = (
 
       // If full marks is not provided or can't be converted to number just send grade in case of (drawing and rhymes)
       if (isNaN(fullMarks)) {
+        nanCount++;
         return {
           ...commonParams,
           grade: studentMark,
@@ -271,6 +273,8 @@ const prepareResult = (
       totalMark += obtainedMark;
       totalGradePoint += gradePoint;
 
+      debugger
+
       return {
         ...commonParams,
         obtainedMark,
@@ -283,7 +287,7 @@ const prepareResult = (
   );
 
   const gPA = Number(
-    (totalGradePoint / subjectFullMarksAndLabel.length).toFixed(2),
+    (totalGradePoint / (subjectFullMarksAndLabel.length - nanCount)).toFixed(2),
   );
   const percentage = Number(((totalMark / totalFullMark) * 100).toFixed(2));
 
