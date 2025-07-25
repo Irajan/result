@@ -178,16 +178,16 @@ document.addEventListener("DOMContentLoaded", function () {
             for (const [index, page] of pagesArray.entries()) {
                 promises.push(
                     html2canvas(page, {
-                        scale: 3, // Higher scale for better resolution
+                        scale: 1.5, // Lower scale to reduce image size
                         backgroundColor: '#fff', // Ensure white background
                         useCORS: true
                     }).then((canvas) => {
                         // Calculate scale to fit content to PDF page
                         const imgWidth = canvas.width;
                         const imgHeight = canvas.height;
-                        const ratio = Math.min(pageWidth * 3 / imgWidth, pageHeight * 3 / imgHeight);
-                        const renderWidth = imgWidth * ratio / 3;
-                        const renderHeight = imgHeight * ratio / 3;
+                        const ratio = Math.min(pageWidth * 1.5 / imgWidth, pageHeight * 1.5 / imgHeight);
+                        const renderWidth = imgWidth * ratio / 1.5;
+                        const renderHeight = imgHeight * ratio / 1.5;
 
                         const imageData = canvas.toDataURL("image/png");
                         // Draw white background for clarity
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const y = (pageHeight - renderHeight) / 2;
                         pdf.addImage(imageData, "PNG", x, y, renderWidth, renderHeight);
                         // Add new page only if it's not the last one
-                        if (index < resultPages.length - 1) {
+                        if (index < pagesArray.length - 1) {
                             pdf.addPage();
                         }
                     })
