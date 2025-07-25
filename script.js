@@ -57,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const schoolDaysIndex = subjectRows.findIndex(value => value?.toLowerCase() == 'ta')
         const rollNumberIndex = subjectRows.findIndex(value => value?.toLowerCase() == 'roll')
 
-        debugger
 
         console.log({
           rankIndex,
@@ -142,12 +141,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 format: "a4",
             });
 
+            // Add a style for larger font size for PDF export
+            let style = document.getElementById('pdf-export-style');
+            if (!style) {
+                style = document.createElement('style');
+                style.id = 'pdf-export-style';
+                style.innerHTML = `
+                    .pdf-export-font {
+                        font-size: 22px !important;
+                        line-height: 1.5 !important;
+                        padding: 24px !important;
+                    }
+                    .pdf-export-font table {
+                        font-size: 20px !important;
+                    }
+                    .pdf-export-font th, .pdf-export-font td {
+                        padding: 10px 16px !important;
+                        font-size: 20px !important;
+                    }
+                    .pdf-export-font h5, .pdf-export-font h4, .pdf-export-font h3, .pdf-export-font h2, .pdf-export-font h1 {
+                        font-size: 28px !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
             const resultPages = resultHolder.children;
             const pageWidth = pdf.internal.pageSize.getWidth();
             const pageHeight = pdf.internal.pageSize.getHeight();
             const promises = [];
 
-            for (const [index, page] of Array.from(resultPages).entries()) {
+            // Add the font class to each result page
+            const pagesArray = Array.from(resultPages);
+            pagesArray.forEach(page => page.classList.add('pdf-export-font'));
+
+            for (const [index, page] of pagesArray.entries()) {
                 promises.push(
                     html2canvas(page, {
                         scale: 3, // Higher scale for better resolution
@@ -178,6 +206,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             await Promise.all(promises);
+
+            // Remove the font class after export
+            pagesArray.forEach(page => page.classList.remove('pdf-export-font'));
+
             pdf.save(`${gradeInput.value}_result.pdf`);
         });
         });
